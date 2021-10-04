@@ -15,6 +15,7 @@ const Searchbar = ({ onSubmit }) => {
         onSubmit={(e) => {
           e.preventDefault();
           onSubmit(e.target.elements.request.value);
+          e.target.elements.request.value = "";
         }}
       >
         <Button type="submit">
