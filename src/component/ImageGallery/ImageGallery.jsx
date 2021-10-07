@@ -36,7 +36,11 @@ class ImageGallery extends Component {
           status: "regected",
         });
       } else {
-        this.setState({ images: data.hits, status: "resolved" });
+        this.setState({
+          images: data.hits,
+          status: "resolved",
+          total: data.total,
+        });
       }
     }
 
@@ -48,10 +52,12 @@ class ImageGallery extends Component {
       });
     }
 
-    window.scrollTo({
-      top: document.documentElement.scrollHeight,
-      behavior: "smooth",
-    });
+    if (page > 1) {
+      window.scrollTo({
+        top: document.documentElement.scrollHeight,
+        behavior: "smooth",
+      });
+    }
   }
 
   onLoadMore = () => {
@@ -66,13 +72,12 @@ class ImageGallery extends Component {
     }));
   };
 
-  onOpenModal = (urlImg) => {
-    console.log("tyt", urlImg);
+  onOpenModal = (id) => {
+    const { images } = this.state;
 
-    // console.log(
-    //   this.state.images.find((image) => image.webformatURL === imhUrl)
-    //     .largeImageURL
-    // );
+    const urlImg = images.find(
+      (image) => image.id.toString() === id
+    ).largeImageURL;
 
     this.setState({
       imageUrl: urlImg,
@@ -82,7 +87,7 @@ class ImageGallery extends Component {
   };
 
   render() {
-    const { images, showModal, imageUrl, status } = this.state;
+    const { images, showModal, imageUrl, status, total } = this.state;
 
     if (status === "idle") {
       return (
@@ -102,7 +107,10 @@ class ImageGallery extends Component {
           <Gallery>
             <ImageGalleryItem images={images} onClick={this.onOpenModal} />
           </Gallery>
-          <Button onClick={this.onLoadMore}>Load more</Button>
+          {total !== images.length && (
+            <Button onClick={this.onLoadMore}>Load more</Button>
+          )}
+
           {showModal && (
             <Modal onClick={this.onTogleModal}>
               <img src={imageUrl} alt="" />
