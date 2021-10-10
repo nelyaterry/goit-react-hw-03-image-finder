@@ -1,12 +1,8 @@
 import { Item, Image } from "./ImageGalleryItem.styled";
 
 const ImageGalleryItem = ({ images, onClick }) => {
-  return images.map(({ id, webformatURL }) => (
-    <Item
-      key={webformatURL}
-      id={id}
-      onClick={(e) => onClick(e.currentTarget.id)}
-    >
+  return images.map(({ id, webformatURL, largeImageURL }) => (
+    <Item key={webformatURL} id={id} onClick={() => onClick(largeImageURL)}>
       <Image src={webformatURL} alt="" />
     </Item>
   ));

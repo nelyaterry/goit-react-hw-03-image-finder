@@ -72,15 +72,10 @@ class ImageGallery extends Component {
     }));
   };
 
-  onOpenModal = (id) => {
-    const { images } = this.state;
-
-    const urlImg = images.find(
-      (image) => image.id.toString() === id
-    ).largeImageURL;
-
+  onOpenModal = (url) => {
+    console.log(url);
     this.setState({
-      imageUrl: urlImg,
+      imageUrl: url,
     });
 
     this.onTogleModal();
